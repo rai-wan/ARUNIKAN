@@ -26,3 +26,9 @@ Route::get('/shop', function () {
 Route::get('/login', function () {
     return view('login');
 });
+Route::get('/', function () {
+    return view('index');
+});
+
+Route::get('/forum', [App\Http\Controllers\ForumController::class, 'index']);
+Route::get('/komunitas', [KomunitasController::class, 'index']);

@@ -9,7 +9,7 @@
     <!-- Navbar -->
     <nav class="bg-gray-200 px-6 py-4 shadow flex items-center justify-between">
         <div class="flex items-center space-x-4">
-            <div class="w-8 h-8 bg-black rounded-full"></div>
+            <img src="{{ asset('images/logo.png') }}" alt="Logo" class="w-8 h-8 object-cover rounded-full">
             <span class="font-bold text-lg">Arunikan</span>
         </div>
         <div class="space-x-8 hidden md:flex">
@@ -29,12 +29,12 @@
         
         <!-- Top section -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
-        
             <img src="{{ asset('images/toko.jpeg') }}" alt="Gambar Ikan" class="w-full h-48 object-cover rounded">
-            <div class="bg-gray-200 w-full h-48 rounded p-4">DArunikan adalah platform jual beli ikan hias yang menghubungkan pecinta ikan dengan berbagai jenis ikan berkualitas dari supplier terpercaya. 
-Melalui sistem yang mudah digunakan, pelanggan dapat berbelanja secara online maupun langsung di toko fisik. 
-Kami berkomitmen menghadirkan pelayanan terbaik, ketersediaan stok yang terjamin, dan pengalaman berbelanja ikan yang menyenangkan.
-</div>
+            <div class="bg-gray-200 w-full h-48 rounded p-4">
+                Arunikan adalah platform jual beli ikan hias yang menghubungkan pecinta ikan dengan berbagai jenis ikan berkualitas dari supplier terpercaya. 
+                Melalui sistem yang mudah digunakan, pelanggan dapat berbelanja secara online maupun langsung di toko fisik. 
+                Kami berkomitmen menghadirkan pelayanan terbaik, ketersediaan stok yang terjamin, dan pengalaman berbelanja ikan yang menyenangkan.
+            </div>
         </div>
 
         <!-- Bottom section -->

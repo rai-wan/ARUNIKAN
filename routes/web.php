@@ -26,3 +26,16 @@ Route::get('/shop', function () {
 Route::get('/login', function () {
     return view('login');
 });
+Route::get('/', function () {
+    return view('index');
+});
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+});
+Route::get('/supplier/stok', function () {
+    return view('supplier.gudang');
+});
+Route::get('/kasir/transaksi', function () {
+    return view('kasir.transaksi');
+});

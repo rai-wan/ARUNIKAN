@@ -9,6 +9,7 @@
 </head>
 <body class="bg-gray-100 font-sans">
 
+<<<<<<< HEAD
     <!-- Sticky Navbar -->
     <nav id="navbar" class="sticky top-0 bg-white shadow z-50">
         <div class="container mx-auto px-6 py-4 flex items-center justify-between">
@@ -31,6 +32,30 @@
             </div>
         </div>
     </nav>
+=======
+<nav id="navbar" class="sticky top-0 bg-white shadow z-50">
+    <div class="container mx-auto px-6 py-4 flex items-center justify-between">
+        <!-- Logo Link ke Dashboard -->
+        <a href="/dashboard" class="flex items-center space-x-2">
+            <img src="{{ asset('images/logo.png') }}" alt="Logo" class="h-12 w-auto">
+            <span class="text-2xl font-bold text-blue-600">Arunikan</span>
+        </a>
+        <!-- Links + Search + Profile -->
+        <div class="flex items-center space-x-6">
+            <div class="space-x-4 hidden md:flex">
+                <a href="#home" class="nav-link text-gray-700 hover:text-blue-600">Home</a>
+                <a href="#shop" class="nav-link text-gray-700 hover:text-blue-600">Shop</a>
+                <a href="#about" class="nav-link text-gray-700 hover:text-blue-600">About</a>
+            </div>
+            <div class="hidden md:flex items-center space-x-2">
+                <input type="text" placeholder="Search..." class="px-3 py-1 border rounded-full focus:outline-none focus:ring-2 focus:ring-blue-400">
+                <div class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center cursor-pointer">👤</div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+>>>>>>> ebd27a2 (Initial push)
 
     <!-- HOME SECTION -->
     <section id="home" class="min-h-screen flex flex-col items-center bg-blue-100 px-6 pt-24 pb-12">

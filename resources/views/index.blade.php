@@ -8,8 +8,15 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 font-sans">
+    
+<header class="bg-blue-800 text-white py-4 px-6">
+    <div class="flex justify-between items-center">
+     
+      <a href="/dashboard" class="text-sm underline hover:text-blue-200">← Kembali ke Dashboard</a>
+    </div>
+  </header>
 
-<<<<<<< HEAD
+
     <!-- Sticky Navbar -->
     <nav id="navbar" class="sticky top-0 bg-white shadow z-50">
         <div class="container mx-auto px-6 py-4 flex items-center justify-between">
@@ -22,7 +29,7 @@
             <div class="flex items-center space-x-6">
                 <div class="space-x-4 hidden md:flex">
                     <a href="#home" class="nav-link text-gray-700 hover:text-blue-600">Home</a>
-                    <a href="#shop" class="nav-link text-gray-700 hover:text-blue-600">Shop</a>
+                    <a href="/shop" class="nav-link text-gray-700 hover:text-blue-600">Shop</a>
                     <a href="#about" class="nav-link text-gray-700 hover:text-blue-600">About</a>
                 </div>
                 <div class="hidden md:flex items-center space-x-2">
@@ -32,30 +39,6 @@
             </div>
         </div>
     </nav>
-=======
-<nav id="navbar" class="sticky top-0 bg-white shadow z-50">
-    <div class="container mx-auto px-6 py-4 flex items-center justify-between">
-        <!-- Logo Link ke Dashboard -->
-        <a href="/dashboard" class="flex items-center space-x-2">
-            <img src="{{ asset('images/logo.png') }}" alt="Logo" class="h-12 w-auto">
-            <span class="text-2xl font-bold text-blue-600">Arunikan</span>
-        </a>
-        <!-- Links + Search + Profile -->
-        <div class="flex items-center space-x-6">
-            <div class="space-x-4 hidden md:flex">
-                <a href="#home" class="nav-link text-gray-700 hover:text-blue-600">Home</a>
-                <a href="#shop" class="nav-link text-gray-700 hover:text-blue-600">Shop</a>
-                <a href="#about" class="nav-link text-gray-700 hover:text-blue-600">About</a>
-            </div>
-            <div class="hidden md:flex items-center space-x-2">
-                <input type="text" placeholder="Search..." class="px-3 py-1 border rounded-full focus:outline-none focus:ring-2 focus:ring-blue-400">
-                <div class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center cursor-pointer">👤</div>
-            </div>
-        </div>
-    </div>
-</nav>
-
->>>>>>> ebd27a2 (Initial push)
 
     <!-- HOME SECTION -->
     <section id="home" class="min-h-screen flex flex-col items-center bg-blue-100 px-6 pt-24 pb-12">
@@ -68,28 +51,7 @@
         </div>
     </section>
 
-    <!-- SHOP SECTION -->
-    <section id="shop" class="min-h-screen px-6 py-12 bg-gray-200">
-        <h2 class="text-2xl font-semibold mb-6 text-gray-800">Best Seller Fishes</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            @for ($i = 0; $i < 4; $i++)
-            <div class="bg-white shadow-md rounded-lg overflow-hidden">
-                <div class="h-40 bg-gray-300 flex items-center justify-center">
-                    <span class="text-gray-500">[ Gambar Ikan ]</span>
-                </div>
-                <div class="p-4">
-                    <h3 class="text-lg font-semibold">Betta Fish (Male & Female)</h3>
-                    <div class="text-yellow-500 text-sm mb-2">⭐ 4.9 (1.4k Reviews)</div>
-                    <p class="text-xl font-bold text-blue-600 mb-4">Rp172.999</p>
-                    <div class="flex gap-2">
-                        <button class="bg-gray-300 px-4 py-2 rounded hover:bg-gray-400 w-1/2">Add to Cart</button>
-                        <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 w-1/2">Buy Now</button>
-                    </div>
-                </div>
-            </div>
-            @endfor
-        </div>
-    </section>
+    
 
     <!-- ABOUT SECTION -->
     <section id="about" class="min-h-screen px-6 py-12 bg-gray-300">

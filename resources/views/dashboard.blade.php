@@ -21,6 +21,7 @@
             <a href="#testimoni" class="hover:text-blue-600">Testimoni</a>
             <a href="#tips" class="hover:text-blue-600">Tips</a>
             <a href="/shop" class="hover:text-blue-600">Shop</a>
+            <a href="/index" class="hover:text-blue-600">home</a>
         </div>
     </div>
 </nav>
@@ -97,11 +98,11 @@
             <h3 class="font-bold">Admin</h3>
             <p class="text-sm text-gray-600">Kelola seluruh sistem.</p>
         </a>
-        <a href="/kasir/transaksi" class="text-center p-6 bg-white rounded shadow hover:bg-blue-50">
+        <a href="/kasir" class="text-center p-6 bg-white rounded shadow hover:bg-blue-50">
             <h3 class="font-bold">Kasir</h3>
             <p class="text-sm text-gray-600">Transaksi toko langsung.</p>
         </a>
-        <a href="/supplier/stok" class="text-center p-6 bg-white rounded shadow hover:bg-blue-50">
+        <a href="/supplier" class="text-center p-6 bg-white rounded shadow hover:bg-blue-50">
             <h3 class="font-bold">Supplier</h3>
             <p class="text-sm text-gray-600">Distribusi stok ikan.</p>
         </a>

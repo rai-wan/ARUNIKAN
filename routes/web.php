@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ShopController;
+use App\Http\Controllers\KasirController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,34 +15,28 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+Route::get('/welcome', function () {
     return view('welcome');
 });
-
-Route::get('/', function () {
-    return view('home');
+Route::get('dashboard', function () {
+    return view('dashboard');
 });
+
+Route::get('/kasir', [KasirController::class, 'showTransaksi']);
+
+Route::get('/supplier', function () {
+    return view('supplier.gudang');
+});
+
+
 Route::get('/shop', function () {
     return view('shop'); // Halaman Shop
 });
-Route::get('/login', function () {
+Route::get('/', function () {
     return view('login');
 });
-Route::get('/', function () {
+Route::get('/index', function () {
     return view('index');
 });
 
-<<<<<<< HEAD
-Route::get('/forum', [App\Http\Controllers\ForumController::class, 'index']);
-Route::get('/komunitas', [KomunitasController::class, 'index']);
-=======
-Route::get('/dashboard', function () {
-    return view('dashboard');
-});
-Route::get('/supplier/stok', function () {
-    return view('supplier.gudang');
-});
-Route::get('/kasir/transaksi', function () {
-    return view('kasir.transaksi');
-});
->>>>>>> ebd27a2 (Initial push)
+Route::get('/shop', [ShopController::class, 'showShop']);

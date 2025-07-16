@@ -1,53 +1,122 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Arunikan - Shop</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop - Arunikan</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-50 font-sans">
-    <!-- Navbar -->
-    <nav class="bg-white shadow p-4 flex justify-between items-center">
-        <div class="text-xl font-bold text-blue-600">Arunikan</div>
-        <div class="space-x-4">
-            <a href="/index" class="hover:underline text-gray-700">Home</a>
-            <a href="/shop" class="hover:underline text-blue-600 font-semibold">Shop</a>
+<body class="bg-blue-50 text-gray-800 font-sans">
+
+    <div class="bg-blue-700 text-white p-4 shadow">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold">Toko Produk Arunikan</h1>
+            <a href="/dashboard" class="text-sm underline hover:text-gray-200">Kembali ke Dashboard</a>
         </div>
-    </nav>
+    </div>
 
-    <!-- Main Content -->
-    <div class="container mx-auto mt-10 px-4">
-        <h2 class="text-3xl font-bold mb-8 text-gray-800 text-center">Produk Kami</h2>
+    <div class="max-w-7xl mx-auto px-4 py-6">
 
-        @if(count($produk) > 0)
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            @foreach($produk as $item)
-            <div class="bg-white shadow-md rounded-lg overflow-hidden hover:shadow-xl transition duration-300">
-                @if($item['gambar'])
-                    <img src="{{ $item['gambar'] }}" alt="{{ $item['nama'] }}" class="h-48 w-full object-cover">
-                @else
-                    <img src="https://via.placeholder.com/300x200?text=No+Image" alt="No Image" class="h-48 w-full object-cover">
-                @endif
-                <div class="p-4">
-                    <h3 class="text-lg font-semibold text-gray-800 mb-1">{{ $item['nama'] }}</h3>
-                    <p class="text-sm text-gray-600 mb-1">Kategori: {{ $item['kategori']['nama_kategori'] ?? '-' }}</p>
-                    @if(isset($item['Promo']))
-                        <p class="text-sm text-red-500 mb-1">Promo: {{ $item['Promo']['persen'] }}%</p>
-                    @endif
-                    <p class="text-xl font-bold text-blue-600 mb-2">Rp{{ number_format($item['harga'], 0, ',', '.') }}</p>
-                    <p class="text-sm text-gray-500 mb-4">Stok: {{ $item['stok'] }}</p>
-                    <div class="flex gap-2">
-                        <button class="bg-gray-200 text-gray-700 px-4 py-2 rounded w-1/2 hover:bg-gray-300">Add to Cart</button>
-                        <button class="bg-blue-600 text-white px-4 py-2 rounded w-1/2 hover:bg-blue-700">Buy Now</button>
-                    </div>
+        @if (isset($error))
+            <div class="bg-red-100 text-red-700 px-4 py-2 rounded mb-4">
+                {{ $error }}
+            </div>
+        @endif
+
+        {{-- Filter --}}
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+            <input type="text" id="searchInput" placeholder="Cari produk..." class="w-full md:w-1/3 px-4 py-2 border rounded shadow-sm">
+
+            <select id="filterKategori" class="w-full md:w-1/4 px-4 py-2 border rounded shadow-sm">
+                <option value="">Semua Kategori</option>
+                @foreach ($kategori_list as $kategori)
+                    <option value="{{ $kategori }}">{{ ucfirst($kategori) }}</option>
+                @endforeach
+            </select>
+        </div>
+
+        {{-- Produk per Kategori --}}
+        @foreach ($kategori_terbagi as $kategori => $items)
+            <div class="mb-10 kategori-section" data-kategori="{{ $kategori }}">
+                <h2 class="text-xl font-semibold text-blue-700 mb-4 border-b border-blue-300 pb-1">
+                    {{ ucfirst($kategori) }}
+                </h2>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    @foreach ($items as $item)
+                        <div class="bg-white rounded-lg shadow p-4 flex flex-col product-card"
+                             data-nama="{{ strtolower($item['nama']) }}"
+                             data-kategori="{{ $kategori }}">
+                            @if (!empty($item['gambar']))
+                                <img src="{{ $item['gambar'] }}" alt="{{ $item['nama'] }}" class="h-40 w-full object-cover rounded mb-3">
+                            @else
+                                <div class="h-40 bg-gray-100 flex items-center justify-center rounded mb-3 text-gray-400">
+                                    Tidak ada gambar
+                                </div>
+                            @endif
+
+                            <h3 class="text-lg font-semibold">{{ $item['nama'] }}</h3>
+                            <p class="text-sm text-gray-600 mb-1">Stok: {{ $item['stok'] }}</p>
+                            <p class="text-green-600 font-bold text-lg mb-2">Rp {{ number_format($item['harga'], 0, ',', '.') }}</p>
+
+                            @if ($item['promo'])
+                                <span class="text-sm bg-yellow-100 text-yellow-700 px-2 py-1 rounded mb-2 inline-block">
+                                    Promo: {{ $item['promo']['nama'] }}
+                                </span>
+                            @endif
+
+                            {{-- ✅ Revisi tombol Buy Now --}}
+                            <form action="{{ url('/shop/pembayaran') }}" method="GET" class="mt-auto">
+                                <input type="hidden" name="produk_id" value="{{ $item['id'] }}">
+                                <input type="hidden" name="jumlah" value="1">
+                                <button type="submit" class="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700">
+                                    Buy Now
+                                </button>
+                            </form>
+
+                        </div>
+                    @endforeach
                 </div>
             </div>
-            @endforeach
-        </div>
-        @else
-            <p class="text-center text-gray-500 mt-10">Tidak ada produk yang tersedia saat ini.</p>
-        @endif
+        @endforeach
     </div>
+
+    <script>
+        const searchInput = document.getElementById('searchInput');
+        const filterKategori = document.getElementById('filterKategori');
+        const produkCards = document.querySelectorAll('.product-card');
+        const kategoriSections = document.querySelectorAll('.kategori-section');
+
+        function filterProduk() {
+            const keyword = searchInput.value.toLowerCase();
+            const kategoriFilter = filterKategori.value;
+
+            kategoriSections.forEach(section => {
+                const kategori = section.dataset.kategori;
+                let anyVisible = false;
+
+                section.querySelectorAll('.product-card').forEach(card => {
+                    const nama = card.dataset.nama;
+                    const cardKategori = card.dataset.kategori;
+
+                    const matchNama = nama.includes(keyword);
+                    const matchKategori = !kategoriFilter || cardKategori === kategoriFilter;
+
+                    if (matchNama && matchKategori) {
+                        card.style.display = '';
+                        anyVisible = true;
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+
+                section.style.display = anyVisible ? '' : 'none';
+            });
+        }
+
+        searchInput.addEventListener('input', filterProduk);
+        filterKategori.addEventListener('change', filterProduk);
+    </script>
+
 </body>
 </html>

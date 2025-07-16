@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
@@ -9,6 +8,19 @@
 </head>
 <body class="bg-white text-gray-800 font-sans">
 
+    {{-- 🔴 Notifikasi jika bukan kasir --}}
+    @if(session('role_error'))
+        <div id="notif-role" class="fixed top-4 left-1/2 transform -translate-x-1/2 bg-red-500 text-white px-6 py-3 rounded shadow-lg z-50">
+            {{ session('role_error') }}
+        </div>
+        <script>
+            document.addEventListener('click', function () {
+                const notif = document.getElementById('notif-role');
+                if (notif) notif.style.display = 'none';
+            });
+        </script>
+    @endif
+
 <!-- Navbar -->
 <nav class="sticky top-0 bg-white shadow z-50">
     <div class="container mx-auto px-6 py-4 flex items-center justify-between">
@@ -16,12 +28,37 @@
             <img src="{{ asset('images/logo.png') }}" alt="Logo" class="h-10 w-auto">
             <span class="text-2xl font-bold text-blue-600">Arunikan</span>
         </a>
-        <div class="space-x-6 hidden md:flex">
+
+        <div class="space-x-6 hidden md:flex items-center">
             <a href="#kategori" class="hover:text-blue-600">Kategori</a>
             <a href="#testimoni" class="hover:text-blue-600">Testimoni</a>
             <a href="#tips" class="hover:text-blue-600">Tips</a>
             <a href="/shop" class="hover:text-blue-600">Shop</a>
-            <a href="/index" class="hover:text-blue-600">home</a>
+            <a href="/index" class="hover:text-blue-600">Home</a>
+
+            <!-- Profile Dropdown -->
+            <div class="relative" id="profile-dropdown-wrapper">
+                <button onclick="toggleDropdown()" class="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center focus:outline-none">
+                    <span class="font-semibold uppercase">{{ strtoupper(substr(session('username'), 0, 1) ?? 'U') }}</span>
+                </button>
+
+                <div id="dropdown-menu" class="absolute right-0 mt-2 w-48 bg-white border rounded shadow-lg hidden z-50">
+                    
+                    <a href="{{ route('shop.riwayat') }}" class="block px-4 py-2 text-sm hover:bg-gray-100">Riwayat Transaksi</a>
+
+                    <!-- Tombol logout menggunakan form POST -->
+                    <a href="{{ route('logout') }}"
+                    class="block px-4 py-2 text-sm text-red-600 hover:bg-red-50"
+                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    Logout
+                    </a>
+
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
+                        @csrf
+                    </form>
+                </div>
+
+            </div>
         </div>
     </div>
 </nav>
@@ -93,18 +130,14 @@
 <!-- Call to Action Role -->
 <section class="py-16 px-6">
     <h2 class="text-2xl font-semibold text-center mb-10">Masuk Sebagai</h2>
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 max-w-6xl mx-auto">
-        <a href="/admin/gudang" class="text-center p-6 bg-white rounded shadow hover:bg-blue-50">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+        <a href="/admin/dashboard" class="text-center p-6 bg-white rounded shadow hover:bg-blue-50">
             <h3 class="font-bold">Admin</h3>
             <p class="text-sm text-gray-600">Kelola seluruh sistem.</p>
         </a>
         <a href="/kasir" class="text-center p-6 bg-white rounded shadow hover:bg-blue-50">
             <h3 class="font-bold">Kasir</h3>
             <p class="text-sm text-gray-600">Transaksi toko langsung.</p>
-        </a>
-        <a href="/supplier" class="text-center p-6 bg-white rounded shadow hover:bg-blue-50">
-            <h3 class="font-bold">Supplier</h3>
-            <p class="text-sm text-gray-600">Distribusi stok ikan.</p>
         </a>
         <a href="/shop" class="text-center p-6 bg-white rounded shadow hover:bg-blue-50">
             <h3 class="font-bold">Pembeli</h3>
@@ -117,6 +150,22 @@
 <footer class="bg-white border-t mt-10 py-6 text-center text-sm text-gray-500">
     &copy; 2025 Arunikan. All rights reserved.
 </footer>
+
+<!-- Dropdown Script -->
+<script>
+    function toggleDropdown() {
+        const menu = document.getElementById('dropdown-menu');
+        menu.classList.toggle('hidden');
+    }
+
+    document.addEventListener('click', function (e) {
+        const wrapper = document.getElementById('profile-dropdown-wrapper');
+        const menu = document.getElementById('dropdown-menu');
+        if (!wrapper.contains(e.target)) {
+            menu.classList.add('hidden');
+        }
+    });
+</script>
 
 </body>
 </html>

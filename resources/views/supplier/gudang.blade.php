@@ -1,60 +1,119 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gudang - Supplier | Arunikan</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8">
+    <title>Stok Masuk Produk</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 font-sans">
+<body class="bg-gray-100 min-h-screen">
 
-  <!-- Header -->
-  <header class="bg-blue-800 text-white py-4 px-6">
-    <div class="flex justify-between items-center">
-      <h1 class="text-2xl font-bold">Panel Supplier - Gudang</h1>
-      <a href="/dashboard" class="text-sm underline hover:text-blue-200">← Kembali ke Dashboard</a>
+    <nav class="bg-white shadow p-4 mb-6">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold text-blue-600">Stok Masuk Produk</h1>
+            <a href="/admin/dashboard" class="bg-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-gray-300">
+                ← Kembali ke Dashboard
+            </a>
+        </div>
+    </nav>
+
+    <div class="max-w-6xl mx-auto px-4">
+
+        {{-- Notifikasi --}}
+        @if(session('success'))
+            <div class="bg-green-100 border border-green-300 text-green-800 px-4 py-3 rounded mb-4">
+                {{ session('success') }}
+            </div>
+        @elseif(session('error'))
+            <div class="bg-red-100 border border-red-300 text-red-800 px-4 py-3 rounded mb-4">
+                {{ session('error') }}
+            </div>
+        @endif
+
+        {{-- Info Produk --}}
+        <div class="bg-white shadow rounded p-6 mb-6">
+            <h2 class="text-xl font-bold mb-4">Produk Tersedia</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                @foreach($produk as $item)
+                    <div class="border rounded p-4 shadow-sm bg-gray-50">
+                        <h3 class="font-semibold text-lg">{{ $item['nama'] }}</h3>
+                        <p class="text-sm text-gray-600">Stok Saat Ini: <strong>{{ $item['stok'] }}</strong></p>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+
+        {{-- Form Tambah Stok Masuk --}}
+        <div class="bg-white shadow rounded p-6 mb-8">
+            <h2 class="text-xl font-bold mb-4">Tambah Stok Masuk</h2>
+            <form action="{{ route('admin.stok.simpan') }}" method="POST">
+                @csrf
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block font-medium mb-1">Pilih Produk</label>
+                        <select name="produk_id" class="w-full border rounded p-2" required>
+                            <option value="">-- Pilih Produk --</option>
+                            @foreach($produk as $item)
+                                <option value="{{ $item['id'] }}">{{ $item['nama'] }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block font-medium mb-1">Jumlah</label>
+                        <input type="number" name="jumlah" class="w-full border rounded p-2" required>
+                    </div>
+                    <div>
+                        <label class="block font-medium mb-1">Harga Satuan</label>
+                        <input type="number" name="harga_satuan" class="w-full border rounded p-2" required>
+                    </div>
+                    <div>
+                        <label class="block font-medium mb-1">Keterangan (opsional)</label>
+                        <input type="text" name="keterangan" class="w-full border rounded p-2">
+                    </div>
+                </div>
+                <div class="mt-4 text-right">
+                    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                        Simpan Stok
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        {{-- Riwayat Stok Masuk --}}
+        <div class="bg-white shadow rounded p-6">
+            <h2 class="text-xl font-bold mb-4">Riwayat Stok Masuk</h2>
+            @if(!empty($stokMasuk) && is_countable($stokMasuk))
+                <table class="w-full table-auto text-left border">
+                    <thead>
+                        <tr class="bg-gray-100">
+                            <th class="p-2 border">Tanggal</th>
+                            <th class="p-2 border">Produk</th>
+                            <th class="p-2 border">Jumlah</th>
+                            <th class="p-2 border">Harga Satuan</th>
+                            <th class="p-2 border">Subtotal</th>
+                            <th class="p-2 border">Suplayer</th>
+                            <th class="p-2 border">Keterangan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($stokMasuk as $stok)
+                            <tr>
+                                <td class="p-2 border">{{ $stok['tanggal_masuk'] }}</td>
+                                <td class="p-2 border">{{ $stok['nama_produk'] }}</td>
+                                <td class="p-2 border">{{ $stok['jumlah'] }}</td>
+                                <td class="p-2 border">Rp{{ number_format($stok['harga_satuan'], 0, ',', '.') }}</td>
+                                <td class="p-2 border">Rp{{ number_format($stok['subtotal'], 0, ',', '.') }}</td>
+                                <td class="p-2 border">{{ $stok['nama_suplayer'] ?? '-' }}</td>
+                                <td class="p-2 border">{{ $stok['keterangan'] ?? '-' }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            @else
+                <p class="text-gray-500">Belum ada data stok masuk.</p>
+            @endif
+        </div>
+
     </div>
-  </header>
-
-  <!-- Main Content -->
-  <main class="p-6">
-    <h2 class="text-xl font-semibold mb-4 text-gray-700">Stok Ikan Tersedia</h2>
-
-    <!-- Tabel stok ikan -->
-    <div class="overflow-x-auto">
-      <table class="min-w-full bg-white rounded shadow">
-        <thead>
-          <tr class="bg-blue-100 text-left text-sm text-blue-800">
-            <th class="py-3 px-4">Nama Ikan</th>
-            <th class="py-3 px-4">Jenis</th>
-            <th class="py-3 px-4">Stok</th>
-            <th class="py-3 px-4">Harga</th>
-            <th class="py-3 px-4">Aksi</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- Contoh data dummy -->
-          <tr class="border-t">
-            <td class="py-3 px-4">Ikan Cupang</td>
-            <td class="py-3 px-4">Air Tawar</td>
-            <td class="py-3 px-4">120</td>
-            <td class="py-3 px-4">Rp25.000</td>
-            <td class="py-3 px-4">
-              <button class="bg-yellow-400 hover:bg-yellow-500 text-white px-3 py-1 text-sm rounded">Edit</button>
-              <button class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 text-sm rounded">Hapus</button>
-            </td>
-          </tr>
-          <!-- Tambahkan baris lainnya -->
-        </tbody>
-      </table>
-    </div>
-
-    <!-- Tombol tambah stok -->
-    <div class="mt-6">
-      <a href="#" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded">+ Tambah Stok Baru</a>
-    </div>
-  </main>
 
 </body>
 </html>
-
